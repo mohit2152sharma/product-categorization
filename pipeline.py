@@ -27,4 +27,6 @@ if __name__ == '__main__':
     save_items()
     et = time.time()
 
-    print(f'Total time elapsed: {et-st} seconds')
+    # takes roughly 1 hour to extract 150k items
+    # TODO: explore asyncio to make api calling faster
+    print(f'Total time elapsed: {et-st} seconds') 
