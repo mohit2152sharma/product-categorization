@@ -1,3 +1,4 @@
+from sklearn.metrics import accuracy_score, f1_score, classification_report
 import nltk
 import pandas as pd
 from typing import List
@@ -52,9 +53,16 @@ def shop_categories(df_path: str = './data/jio_mart_items_cleaned.parquet', shop
     df = pd.read_parquet(df_path)    
     return df[shop_column_name].unique().tolist()
 
-def download_nltk_dependencies() -> None:
+def download_nltk_dependencies(quiet: bool = True) -> None:
     print('Downloading nltk dependencies, these are downloaded only once')
-    nltk.download('wordnet')
-    nltk.download('omw-1.4')
-    nltk.download('stopwords')
-    nltk.download('punkt')
+    nltk.download('wordnet', quiet=quiet)
+    nltk.download('omw-1.4', quiet=quiet)
+    nltk.download('stopwords', quiet=quiet)
+    nltk.download('punkt', quiet=quiet)
+
+def print_accuracies(y_pred, y_test):
+    print(f'Testing accuracy: {accuracy_score(y_pred, y_test)}')
+    print(f'F1 score: {f1_score(y_test, y_pred, average="weighted")}')
+
+def print_classification_report(y_test, y_pred): 
+    print(classification_report(y_test, y_pred))
