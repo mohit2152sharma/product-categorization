@@ -38,7 +38,7 @@ Training data was crawled from *jio-mart* website. For multiple product categori
 
 Machine learning models are trained in `model.ipynb` file. The best machine learning model is selected after doing grid search across different algorithms namely: *random forest classifier*, *support vector classifier*, *logistic regression*, *decision tree classifier*, *knn classifier* and *multinomial naive bayes classifier*. Currently best classifier is selected without any hyper-parameter tuning on different algorithms.
 
-Currently the best algorithm seems to be *MultiNomial Naive Bayes* with `f1-score=0.94`. 
+Currently the best algorithm seems to be *Support vector classifier* with `f1-score=0.98`. 
 
 To handle class imbalances *SMOTE* technique is applied. 
 
