@@ -36,8 +36,14 @@ class CrawlJioMart:
             page_data = requests.get(item_page_url).content
             soup = BeautifulSoup(page_data, 'lxml')
             items = soup.find_all(attr, class_=class_name)
-            for item in items:
-                item_description.append(item.get_text())
+            items_prices = soup.find_all('span', attrs={'id': 'final_price'})
+
+            for item, price in zip(items, items_prices):
+                item_price = price.get_text().split(' ')[-1]
+                if ',' in item_price:
+                    item_price = item_price.replace(',', '')
+                item_price = float(item_price)
+                item_description.append((item.get_text(), item_price))
             print(f'Extracted items from url: {item_page_url}')
 
             # get next page link
@@ -54,7 +60,7 @@ class CrawlJioMart:
         category_df = self.crawl_category_page()
         category_df['items'] = category_df['href'].apply(lambda x: self.crawl_all_item_pages(item_page_url=x))
         category_df = category_df.explode('items')
+        category_df[['items', 'price']] = pd.DataFrame(category_df['items'].tolist(), index=category_df.index)
 
         print(f'Extracted a dataframe of shape: {category_df.shape}')
         return category_df
-        
